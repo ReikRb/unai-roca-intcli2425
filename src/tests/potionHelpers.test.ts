@@ -1,5 +1,5 @@
 import { potions } from "../data/data"
-import { filterByLevelRequirement, getPotionsByRarity } from "../helpers/potionHelpers"
+import { filterByLevelRequirement, findPotionByEffect, getPotionsByRarity, listIngredients } from "../helpers/potionHelpers"
 
 describe('filterByLevelRequirement tests', () => {
    it('Should return potions under level 15 or lower', () => {
@@ -34,5 +34,25 @@ describe('filterByRarity tests', () => {
          const filtered_potions = getPotionsByRarity(potions, 'common')
      
         expect(filtered_potions.length).toBe(0)
+     })
+ })
+
+ describe('listIngredients tests', () => {
+    it('Should return ingredients of given potion', () => {
+        const ingredients = listIngredients(potions[0])
+
+        expect(ingredients.length).toBe(3)
+        expect(ingredients[0]).toBe('Phoenix Feather')
+        expect(ingredients[1]).toBe("Molten Ember")
+        expect(ingredients[2]).toBe("Flameflower Extract")
+     })
+ })
+
+
+ describe('findPotionByEffect tests', () => {
+    it('Should return potions with given secondary effect', () => {
+        const newPotionsArray = findPotionByEffect(potions, 'manaRegeneration')
+        
+        expect(newPotionsArray.length).toBe(2)
      })
  })
