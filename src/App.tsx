@@ -1,23 +1,38 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import './App.css'
 import { Potion } from './types/Potion'
 import { potions } from './data/data'
-import { filterByLevelRequirement } from './helpers/potionHelpers'
+import { filterByLevelRequirement, getPotionsByRarity } from './helpers/potionHelpers'
 
 function App() {
   const [potionsToDisplay, setPotionsToDisplay] = useState<Potion[]>(potions)
+  const [rarityToDisplay, setRarityToDisplay] = useState<string>('all')
   const [value, setValue] = useState(100);
+  const dropdownValues = [
+    { key: 'all', label: 'All' },
+    { key: 'epic', label: 'Epic' },
+    { key: 'legendary', label: 'Legendary' },
+    { key: 'mythic', label: 'Mythic' }]
 
   const handleChange = (event: any) => {
     const level = event.target.value
     setValue(level)
-    const newPotions = filterByLevelRequirement(potions, level)
-    setPotionsToDisplay(newPotions)
+  }
+  const handleChangeRarity = (event: any) => {
+    setRarityToDisplay(event.target.value)
+    console.log(rarityToDisplay);
+    
+
   }
 
+  useEffect(() => {
+    let newPotions: Potion[] = filterByLevelRequirement(potions, value)
+    if (rarityToDisplay !== 'all') newPotions = getPotionsByRarity(newPotions, rarityToDisplay)
+    setPotionsToDisplay(newPotions)
+  },[value, rarityToDisplay])
   return (
     <>
-    <div className=' w-[900px] h-[500px] ml-[30%] flex flex-row space-x-[5%] overflow-y-auto'>
+    <div className=' w-[900px] h-[500px] ml-[30%] flex flex-row space-x-[5%] overflow-y-hidden'>
       {
         potionsToDisplay.map((potion: Potion, index: number) => {
           return (
@@ -39,18 +54,23 @@ function App() {
         })
       }
     </div>
-        <span>FILTERS {value}</span>
     <div className=' flex w-[1800px] h-[300px] ml-[4%] mt-[4%]'>
       <div className='flex flex-block w-[20%] mr-[5%]'>
-
-
-      <label htmlFor="minmax-range" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Min-max range</label>
+      <label htmlFor="minmax-range" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">FILTERING BY LEVEL: {value}</label>
       <input id="minmax-range" type="range" min="0" max="100" defaultValue={value} 
         onChange={handleChange}
         className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
-
       </div>
+
       <div className='w-[20%] mr-[5%]'>
+         <select
+                onChange={handleChangeRarity}
+                value={rarityToDisplay}
+                className="block w-8/12 bg-gray-200 text-black border border-gray-800 rounded-md py-1 pl-6 pr-10 2xl:text-3xl lg:text-xl sm:text-base appearance-none">
+                {dropdownValues.map((option, i) => {
+                    return <option key={i} value={option.key}>{option.label}</option>;
+                })}
+            </select>
       </div>
       <div className='w-[20%] mr-[5%]'>
       </div>
