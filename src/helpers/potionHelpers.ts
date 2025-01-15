@@ -7,3 +7,12 @@ export function filterByLevelRequirement(potions:Potion[], level: number){
     }) 
     return newPotions
 }
+
+export function getPotionsByRarity(potions: Potion[], rarity: string){
+    let newPotions: Potion[] = []
+    potions.map((potion: Potion)=> {
+        potion.rarity === rarity ? newPotions = [...newPotions, potion] : null 
+    }) 
+    return newPotions
+}
+
