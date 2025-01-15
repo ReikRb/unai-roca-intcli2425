@@ -2,11 +2,12 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { Potion } from './types/Potion'
 import { potions } from './data/data'
-import { filterByLevelRequirement, getPotionsByRarity } from './helpers/potionHelpers'
+import { filterByLevelRequirement, findPotionByEffect, getPotionsByRarity } from './helpers/potionHelpers'
 
 function App() {
   const [potionsToDisplay, setPotionsToDisplay] = useState<Potion[]>(potions)
   const [rarityToDisplay, setRarityToDisplay] = useState<string>('all')
+  const [effectToDisplay, setEffectToDisplay] = useState<string>('search')
   const [value, setValue] = useState(100);
   const dropdownValues = [
     { key: 'all', label: 'All' },
@@ -20,16 +21,20 @@ function App() {
   }
   const handleChangeRarity = (event: any) => {
     setRarityToDisplay(event.target.value)
-    console.log(rarityToDisplay);
     
 
+  }
+
+  const handleInputChange = (event: any) => {
+    setEffectToDisplay(event.target.value)
   }
 
   useEffect(() => {
     let newPotions: Potion[] = filterByLevelRequirement(potions, value)
     if (rarityToDisplay !== 'all') newPotions = getPotionsByRarity(newPotions, rarityToDisplay)
+    if (effectToDisplay !== '' && effectToDisplay !== 'search') newPotions = findPotionByEffect(newPotions, effectToDisplay)
     setPotionsToDisplay(newPotions)
-  },[value, rarityToDisplay])
+  },[value, rarityToDisplay, effectToDisplay])
   return (
     <>
     <div className=' w-[900px] h-[500px] ml-[30%] flex flex-row space-x-[5%] overflow-y-hidden'>
@@ -73,8 +78,14 @@ function App() {
             </select>
       </div>
       <div className='w-[20%] mr-[5%]'>
+      <input
+        type="text"
+        value={effectToDisplay}
+        onChange={handleInputChange}
+        placeholder='Type to search'
+      />
       </div>
-      <div className=' w-[20%] bg-white'>
+      <div className=' w-[20%]'>
 
       </div>
     </div>
