@@ -35,3 +35,19 @@ export function findPotionByEffect(potions: Potion[], effectName: string) {
     })
     return newPotions
 }
+
+export function calculateCraftingTime(potions: Potion[]) {
+    let craftingTimeMinutes: number = 0
+    let craftingTimeHours: number = 0
+    potions.map((potion: Potion) => {
+        const unit: string = potion.crafting.time.unit
+        const amount: number = potion.crafting.time.amount
+
+        unit === 'hours' ? craftingTimeHours += amount : craftingTimeMinutes += amount
+    })
+    console.log('Minutes:', craftingTimeMinutes, 'Hours: ', craftingTimeHours);
+    craftingTimeMinutes += craftingTimeHours*60
+
+    console.log('TOTAL TIME TO CRAFT ALL POTIONS: ', craftingTimeMinutes)
+    return craftingTimeMinutes
+}
