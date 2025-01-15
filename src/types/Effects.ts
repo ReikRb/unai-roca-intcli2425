@@ -1,4 +1,3 @@
-import { Duration } from "./Duration"
 import { Effect } from "./Effect"
 import { SecondaryEffect } from "./SecondaryEffect"
 
