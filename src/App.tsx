@@ -34,7 +34,7 @@ function App() {
     <>
     <div className=' w-[900px] h-[500px] ml-[30%] flex flex-row space-x-[5%] overflow-y-hidden'>
       {
-        potionsToDisplay.map((potion: Potion, index: number) => {
+        potionsToDisplay.map((potion: Potion) => {
           return (
             <div className=' w-[350px] h-[500px] mb-[7%] border-2 border-[#e5d774]'>
               <div className='justify-items-center'>
