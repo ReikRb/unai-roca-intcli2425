@@ -11,6 +11,8 @@ function App() {
   const [value, setValue] = useState(100);
   const [displayMinutes, setDisplayMinutes] = useState(false)
   const [totalCraftTime, setTotalCraftTime] = useState(0)
+  const [displayDetails, setDisplayDetails] = useState(false)
+
   const dropdownValues = [
     { key: 'all', label: 'All' },
     { key: 'epic', label: 'Epic' },
@@ -37,6 +39,7 @@ function App() {
 
     setTotalCraftTime(time)
   }
+
   useEffect(() => {
     let newPotions: Potion[] = filterByLevelRequirement(potions, value)
     if (rarityToDisplay !== 'all') newPotions = getPotionsByRarity(newPotions, rarityToDisplay)
@@ -44,6 +47,7 @@ function App() {
     setPotionsToDisplay(newPotions)
     setDisplayMinutes(false)
   },[value, rarityToDisplay, effectToDisplay])
+  
   return (
     <>
     <div className=' w-[900px] h-[500px] ml-[30%] flex flex-row space-x-[5%] overflow-y-hidden'>
