@@ -2,13 +2,15 @@ import { useEffect, useState } from 'react'
 import './App.css'
 import { Potion } from './types/Potion'
 import { potions } from './data/data'
-import { filterByLevelRequirement, findPotionByEffect, getPotionsByRarity } from './helpers/potionHelpers'
+import { calculateCraftingTime, filterByLevelRequirement, findPotionByEffect, getPotionsByRarity } from './helpers/potionHelpers'
 
 function App() {
   const [potionsToDisplay, setPotionsToDisplay] = useState<Potion[]>(potions)
   const [rarityToDisplay, setRarityToDisplay] = useState<string>('all')
   const [effectToDisplay, setEffectToDisplay] = useState<string>('search')
   const [value, setValue] = useState(100);
+  const [displayMinutes, setDisplayMinutes] = useState(false)
+  const [totalCraftTime, setTotalCraftTime] = useState(0)
   const dropdownValues = [
     { key: 'all', label: 'All' },
     { key: 'epic', label: 'Epic' },
@@ -29,11 +31,18 @@ function App() {
     setEffectToDisplay(event.target.value)
   }
 
+  const handleCrafting = () => {
+    setDisplayMinutes(true)
+    const time = calculateCraftingTime(potionsToDisplay)
+
+    setTotalCraftTime(time)
+  }
   useEffect(() => {
     let newPotions: Potion[] = filterByLevelRequirement(potions, value)
     if (rarityToDisplay !== 'all') newPotions = getPotionsByRarity(newPotions, rarityToDisplay)
     if (effectToDisplay !== '' && effectToDisplay !== 'search') newPotions = findPotionByEffect(newPotions, effectToDisplay)
     setPotionsToDisplay(newPotions)
+    setDisplayMinutes(false)
   },[value, rarityToDisplay, effectToDisplay])
   return (
     <>
@@ -86,7 +95,10 @@ function App() {
       />
       </div>
       <div className=' w-[20%]'>
-
+        <button onClick={handleCrafting}>CALCULATE TIME TO CRAFT ALL POTIONS</button>
+        {displayMinutes && (
+          <span>TIME TO CRAFT ALL POTIONS: {totalCraftTime} Minutes</span>
+        )}
       </div>
     </div>
     </>
