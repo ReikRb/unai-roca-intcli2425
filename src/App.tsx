@@ -3,6 +3,8 @@ import './App.css'
 import { Potion } from './types/Potion'
 import { potions } from './data/data'
 import { calculateCraftingTime, filterByLevelRequirement, findPotionByEffect, getPotionsByRarity } from './helpers/potionHelpers'
+import { Ingredient } from './types/Ingredient'
+import { SecondaryEffect } from './types/SecondaryEffect'
 
 function App() {
   const [potionsToDisplay, setPotionsToDisplay] = useState<Potion[]>(potions)
@@ -12,6 +14,7 @@ function App() {
   const [displayMinutes, setDisplayMinutes] = useState(false)
   const [totalCraftTime, setTotalCraftTime] = useState(0)
   const [displayDetails, setDisplayDetails] = useState(false)
+  const [potionToDisplay, setPotionToDisplay] = useState<Potion>()
 
   const dropdownValues = [
     { key: 'all', label: 'All' },
@@ -38,6 +41,14 @@ function App() {
     const time = calculateCraftingTime(potionsToDisplay)
 
     setTotalCraftTime(time)
+  }
+
+  const handleOpenDisplayDetails = (potion: Potion) => {
+    setDisplayDetails(true)
+    setPotionToDisplay(potion)
+  }
+  const handleCloseDisplayDetails = () => {
+    setDisplayDetails(false)
   }
 
   useEffect(() => {
@@ -77,7 +88,7 @@ function App() {
                     </div>
                   </div>
                   <div className='mt-[6%] flex justify-center '>
-                    <button className='bg-[#e5d774] text-black'> Show Potion Details</button>
+                    <button className='bg-[#e5d774] text-black' onClick={() => handleOpenDisplayDetails(potion)}> Show Potion Details</button>
                   </div>
                 </div>
               )
@@ -123,17 +134,107 @@ function App() {
               <button onClick={handleCrafting} className='w-[50%] bg-gray-800 flex align-center'><p>CALCULATE TIME TO CRAFT ALL POTIONS</p></button>
               {displayMinutes && (
                 <>
-                <div className='text-center ml-[10px]'>
-                  <p>TIME TO CRAFT ALL POTIONS: </p>
-                  <p>{totalCraftTime} Minutes</p>
-                </div>
+                  <div className='text-center ml-[10px]'>
+                    <p>TIME TO CRAFT ALL POTIONS: </p>
+                    <p>{totalCraftTime} Minutes</p>
+                  </div>
                 </>
               )}
 
             </div>
           </div>
         </div>
+        {displayDetails ? (
+          <>
+            <div className='absolute justify-center top-0 left- 0 w-full h-[1378px] bg-[#000000d9] text-[#e5d774]' onClick={() => handleCloseDisplayDetails()}>
+              <div className='w-full text-center text-6xl my-[3%] text-[#e5d774]'>CLICK ANYWHERE TO CLOSE DETAILS WINDOW</div>
+              {potionToDisplay != undefined ? (
+                <>
+                  <div className='w-full h-[900px] flex justify-center'>
+                    <div className='w-[70%] h-[80%] bg-gray-900 rounded'>
+                        <div className='w-full h-[60px] text-center text-2xl mt-[20px]'>
+                          <p>{potionToDisplay.name}'s Details</p>
+                        </div>
+                      <div className='grid grid-cols-2'>
+                        <div>
+                          <div className='grid grid-cols-1 w-[95%] text-center text-xl'>
+                            <div className='my-[10px]'>
+                              <p className='text-2xl'>MAIN EFFECT</p>
+                              <p>{`The main effect attribute is "${potionToDisplay.effects.primary.attribute}".`}</p>
+                              <p>{` It has a duration of ${potionToDisplay.effects.primary.duration.amount} ${potionToDisplay.effects.primary.duration.unit} and has a value in market of ${potionToDisplay.effects.primary.value}. `}</p>
+                            </div>
+                          </div>
+                          <div className='grid grid-cols-1 w-[95%] text-center text-xl'>
+                            <p className='text-2xl'>SECONDARY EFFECTS</p>
+                            {potionToDisplay.effects.secondary.map((effect: SecondaryEffect) => {
+                              return (
+                                <>
+                                  <div className='my-[10px]'>
+                                    <p>{`One of the secondary effects attribute is "${effect.attribute}".`}</p>
+                                    <p>{` It has a duration of ${effect.duration.amount} ${effect.duration.unit} and has a value in market of ${potionToDisplay.effects.primary.value}. `}</p>
+                                  </div>
+                                </>
+                              )
+                            })}
 
+                          </div>
+                        </div>
+                         <div className=' text-center'>
+                          <div>
+                            <p className='text-2xl '>OTHER DETAILS</p>
+                          </div>
+                            <div>
+                              <p className='text-xl'>This potion can be used if the user is at least level {potionToDisplay.usage.restrictions.levelRequirement}</p>
+                              <p className='mt-[20px] text-xl'>Only this classes can use the potion:</p>
+                              <p className='text-xl'>{potionToDisplay.usage.restrictions.classRestrictions.map((name: string) => {return `${name} `})}</p>
+                              <p className='mt-[20px] text-xl'>{potionToDisplay.crafting.time.amount} {potionToDisplay.crafting.time.unit} of crafting time.</p>
+                              <p className='mt-[20px] text-xl ml-[15%] w-[70%]' >{potionToDisplay.usage.instructions}.</p>
+                              <p className=' text-2xl mt-[20px]'>USAGE'S WARNING</p>
+                              {potionToDisplay.usage.restrictions.warnings.map((warning: string) => {
+                                return <p className=''>{warning}</p>
+                              })}
+                            </div>
+
+                         </div>
+
+                      </div>
+                      <div className='bg-gray-900 w-[95%] ml-[2.5%] px-[5%] mt-[2%] pb-[2%]'>
+                        <div className='w-full h-[8%] bg-gray-900 grid grid-cols-1'>
+                          <div className='w-full h-[100%] text-center text-xl bg-gray-900 grid grid-cols-3 gap-x-[5%] gap-y-[0%] mt-[10px] pb-[10px]'>
+                            <p className='border'>Name</p>
+                            <p className='border'>Location</p>
+                            <p className='border'>Region</p>
+                          </div>
+                        </div>
+                        {
+                          potionToDisplay.ingredients.map((ingredient: Ingredient) => {
+                            return (
+                              <>
+                                <div className='w-full h-[8%] bg-gray-900 grid grid-cols-1 mt-[10px]'>
+                                  <div className='w-full h-[100%] text-center text-xl bg-gray-900 grid grid-cols-3 gap-x-[5%] border-b'>
+                                    <p className=''>{ingredient.name}</p>
+                                    <p className=''>{ingredient.origin.location}</p>
+                                    <p className=''>{ingredient.origin.region}</p>
+                                  </div>
+                                </div>
+                              </>
+                            )
+                          })
+                        }
+                      </div>
+
+
+                      {/* tiempo de creacion e intrucciones de uso
+                        */}
+                    </div>
+                  </div>
+                </>
+              ) : null}
+            </div>
+          </>
+        ) : null
+
+        }
       </div>
     </>
   )
