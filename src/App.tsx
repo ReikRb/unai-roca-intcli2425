@@ -223,10 +223,6 @@ function App() {
                           })
                         }
                       </div>
-
-
-                      {/* tiempo de creacion e intrucciones de uso
-                        */}
                     </div>
                   </div>
                 </>
