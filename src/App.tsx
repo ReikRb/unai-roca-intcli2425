@@ -64,7 +64,7 @@ function App() {
   return (
     <>
       <div className=''>
-        <div className='w-[1850px] rounded pt-[30px] ml-[35px] h-[1200px] grid grid-cols-5 gap-x-[1%] gap-y-[6%] auto-rows-max bg-[#010001bf] border border-[]'>
+        <div className='w-[1850px] rounded pt-[30px] text-white ml-[35px] h-[1200px] grid grid-cols-5 gap-x-[1%] gap-y-[6%] auto-rows-max bg-[#010001bf] border border-[]'>
           {
             potionsToDisplay.map((potion: Potion) => {
               return (
@@ -100,7 +100,7 @@ function App() {
         <div className=' flex w-[1850px] h-[100px] ml-[2%] mt-[4%] grid grid-cols-4 gap-x-[1%]'>
           <div className='border flex  rounded justify-center align-center h-[70px] bg-black'>
             <div className='w-[90%]'>
-              <label htmlFor="minmax-range" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white text-xl">FILTERING BY LEVEL: {value}</label>
+              <label htmlFor="minmax-range" className="block mb-2 text-sm font-medium text-white dark:text-white text-xl">FILTERING BY LEVEL: {value}</label>
               <input id="minmax-range" type="range" min="0" max="100" defaultValue={value}
                 onChange={handleChange}
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
@@ -125,13 +125,13 @@ function App() {
                 value={effectToDisplay}
                 onChange={handleInputChange}
                 placeholder='Search By Secondary Effect Name...'
-                className='w-full bg-gray-800 rounded text-center'
+                className='w-full bg-gray-800 rounded text-center text-white'
               />
             </div>
           </div>
           <div className='border flex flex-center rounded justify-center h-[70px] bg-black'>
-            <div className='w-[90%] h-[70%] flex mt-[10px] text-sm'>
-              <button onClick={handleCrafting} className='w-[50%] bg-gray-800 flex align-center'><p>CALCULATE TIME TO CRAFT ALL POTIONS</p></button>
+            <div className='w-[90%] h-[70%] flex mt-[10px] text-sm text-white'>
+              <button onClick={handleCrafting} className='w-[50%] bg-gray-800 flex align-center '><p>CALCULATE TIME TO CRAFT ALL POTIONS</p></button>
               {displayMinutes && (
                 <>
                   <div className='text-center ml-[10px]'>
@@ -163,7 +163,7 @@ function App() {
                               <p>{` It has a duration of ${potionToDisplay.effects.primary.duration.amount} ${potionToDisplay.effects.primary.duration.unit} and has a value in market of ${potionToDisplay.effects.primary.value}. `}</p>
                             </div>
                           </div>
-                          <div className='grid grid-cols-1 w-[95%] text-center text-xl'>
+                          <div className='grid grid-cols-1 w-[95%] text-center text-xl mt-[50px]'>
                             <p className='text-2xl'>SECONDARY EFFECTS</p>
                             {potionToDisplay.effects.secondary.map((effect: SecondaryEffect) => {
                               return (
