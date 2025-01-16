@@ -26,10 +26,9 @@ function App() {
     const level = event.target.value
     setValue(level)
   }
+
   const handleChangeRarity = (event: any) => {
     setRarityToDisplay(event.target.value)
-
-
   }
 
   const handleInputChange = (event: any) => {
@@ -48,6 +47,7 @@ function App() {
     setDisplayDetails(true)
     setPotionToDisplay(potion)
   }
+
   const handleCloseDisplayDetails = () => {
     setDisplayDetails(false)
   }
@@ -56,6 +56,7 @@ function App() {
     let newPotions: Potion[] = filterByLevelRequirement(potions, value)
     if (rarityToDisplay !== 'all') newPotions = getPotionsByRarity(newPotions, rarityToDisplay)
     if (effectToDisplay !== '' && effectToDisplay !== '') newPotions = findPotionByEffect(newPotions, effectToDisplay)
+
     setPotionsToDisplay(newPotions)
     setDisplayMinutes(false)
   }, [value, rarityToDisplay, effectToDisplay])
@@ -105,7 +106,6 @@ function App() {
                 className="w-full h-2 bg-gray-200 rounded-lg appearance-none cursor-pointer dark:bg-gray-700" />
             </div>
           </div>
-
           <div className='border flex flex-center rounded justify-center h-[70px] bg-black'>
             <div className='w-[90%] h-[70%] flex justify-center mt-[10px]'>
               <select
@@ -127,7 +127,6 @@ function App() {
                 placeholder='Search By Secondary Effect Name...'
                 className='w-full bg-gray-800 rounded text-center'
               />
-
             </div>
           </div>
           <div className='border flex flex-center rounded justify-center h-[70px] bg-black'>
@@ -141,7 +140,6 @@ function App() {
                   </div>
                 </>
               )}
-
             </div>
           </div>
         </div>
@@ -153,9 +151,9 @@ function App() {
                 <>
                   <div className='w-full h-[900px] flex justify-center'>
                     <div className='w-[70%] h-[80%] bg-gray-900 rounded'>
-                        <div className='w-full h-[60px] text-center text-2xl mt-[20px]'>
-                          <p>{potionToDisplay.name}'s Details</p>
-                        </div>
+                      <div className='w-full h-[60px] text-center text-2xl mt-[20px]'>
+                        <p>{potionToDisplay.name}'s Details</p>
+                      </div>
                       <div className='grid grid-cols-2'>
                         <div>
                           <div className='grid grid-cols-1 w-[95%] text-center text-xl'>
@@ -180,24 +178,22 @@ function App() {
 
                           </div>
                         </div>
-                         <div className=' text-center'>
+                        <div className=' text-center'>
                           <div>
                             <p className='text-2xl '>OTHER DETAILS</p>
                           </div>
-                            <div>
-                              <p className='text-xl'>This potion can be used if the user is at least level {potionToDisplay.usage.restrictions.levelRequirement}</p>
-                              <p className='mt-[20px] text-xl'>Only this classes can use the potion:</p>
-                              <p className='text-xl'>{potionToDisplay.usage.restrictions.classRestrictions.map((name: string) => {return `${name} `})}</p>
-                              <p className='mt-[20px] text-xl'>{potionToDisplay.crafting.time.amount} {potionToDisplay.crafting.time.unit} of crafting time.</p>
-                              <p className='mt-[20px] text-xl ml-[15%] w-[70%]' >{potionToDisplay.usage.instructions}.</p>
-                              <p className=' text-2xl mt-[20px]'>USAGE'S WARNING</p>
-                              {potionToDisplay.usage.restrictions.warnings.map((warning: string) => {
-                                return <p className=''>{warning}</p>
-                              })}
-                            </div>
-
-                         </div>
-
+                          <div>
+                            <p className='text-xl'>This potion can be used if the user is at least level {potionToDisplay.usage.restrictions.levelRequirement}</p>
+                            <p className='mt-[20px] text-xl'>Only this classes can use the potion:</p>
+                            <p className='text-xl'>{potionToDisplay.usage.restrictions.classRestrictions.map((name: string) => { return `${name} ` })}</p>
+                            <p className='mt-[20px] text-xl'>{potionToDisplay.crafting.time.amount} {potionToDisplay.crafting.time.unit} of crafting time.</p>
+                            <p className='mt-[20px] text-xl ml-[15%] w-[70%]' >{potionToDisplay.usage.instructions}.</p>
+                            <p className=' text-2xl mt-[20px]'>USAGE'S WARNING</p>
+                            {potionToDisplay.usage.restrictions.warnings.map((warning: string) => {
+                              return <p className=''>{warning}</p>
+                            })}
+                          </div>
+                        </div>
                       </div>
                       <div className='bg-gray-900 w-[95%] ml-[2.5%] px-[5%] mt-[2%] pb-[2%]'>
                         <div className='w-full h-[8%] bg-gray-900 grid grid-cols-1'>
@@ -230,7 +226,6 @@ function App() {
             </div>
           </>
         ) : null
-
         }
       </div>
     </>
