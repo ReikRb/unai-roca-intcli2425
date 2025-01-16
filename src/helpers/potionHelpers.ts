@@ -2,11 +2,11 @@ import { Ingredient } from "../types/Ingredient";
 import { Potion } from "../types/Potion";
 import { SecondaryEffect } from "../types/SecondaryEffect";
 
-export function filterByLevelRequirement(potions: Potion[], level: number) {
+export function filterByLevelRequirement(potions: Potion[], level: number):Potion[] {
     return potions.filter((potion: Potion) => potion.usage.restrictions.levelRequirement <= level)
 }
 
-export function getPotionsByRarity(potions: Potion[], rarity: string) {
+export function getPotionsByRarity(potions: Potion[], rarity: string):Potion[] {
     return potions.filter((potion: Potion) => potion.rarity === rarity)
 }
 
@@ -20,7 +20,7 @@ export function findPotionByEffect(potions: Potion[], effectName: string): Potio
     )
 }
 
-export function calculateCraftingTime(potions: Potion[]) {
+export function calculateCraftingTime(potions: Potion[]): number {
     let craftingTime: number = 0
     potions.map((potion: Potion) => {
         const unit: string = potion.crafting.time.unit
