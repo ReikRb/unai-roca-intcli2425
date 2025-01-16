@@ -44,6 +44,7 @@ function App() {
   }
 
   const handleOpenDisplayDetails = (potion: Potion) => {
+    window.scrollTo(0, 50)
     setDisplayDetails(true)
     setPotionToDisplay(potion)
   }
