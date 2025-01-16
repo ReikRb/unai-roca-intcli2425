@@ -23,11 +23,19 @@ describe('filterByRarity tests', () => {
         const filtered_potions = getPotionsByRarity(potions, 'legendary')
 
         expect(filtered_potions.length).toBe(6)
+        expect(filtered_potions[0].rarity).toBe('legendary')
+        expect(filtered_potions[1].rarity).toBe('legendary')
+        expect(filtered_potions[2].rarity).toBe('legendary')
+        expect(filtered_potions[3].rarity).toBe('legendary')
+        expect(filtered_potions[4].rarity).toBe('legendary')
+        expect(filtered_potions[5].rarity).toBe('legendary')
     })
     it('Should return potions that matches given rarity: Epic', () => {
         const filtered_potions = getPotionsByRarity(potions, 'epic')
 
         expect(filtered_potions.length).toBe(2)
+        expect(filtered_potions[0].rarity).toBe('epic')
+        expect(filtered_potions[1].rarity).toBe('epic')
     })
 
     it('Should not return any potion', () => {
@@ -54,6 +62,8 @@ describe('findPotionByEffect tests', () => {
         const newPotionsArray = findPotionByEffect(potions, 'manaRegeneration')
 
         expect(newPotionsArray.length).toBe(2)
+        expect(newPotionsArray[0].effects.secondary[0].attribute).toBe('manaRegeneration')
+        expect(newPotionsArray[1].effects.secondary[0].attribute).toBe('manaRegeneration')
     })
 })
 
